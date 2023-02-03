@@ -1,0 +1,284 @@
+{
+    "caching": {
+        "type": "one_change",
+        "save": true
+    },
+
+    "mode": "gosu",
+    "pipeline": ["ner", "ent"],
+    "text_tags": false,
+    "morph": true,
+    "paraphrase": true,
+    "delete": true,
+
+    "path_configs": "DeepPavlov/deeppavlov/configs",
+    "path_to_models": {
+        "ner": "ner/ner_ontonotes_bert_mult.json",
+        "ent": "ner/ner_bert_ent_and_type_rus.json",
+        "syn": "syntax/syntax_ru_syntagrus_bert.json",
+        "morph": "morpho_tagger/BERT/morpho_ru_syntagrus_bert.json",
+        "qa": "squad/squad_ru_rubert_infer.json"
+    },
+
+    "save": {
+        "path_save": "db/gosuslugi_ner_net/dbes",
+        "net": {},
+        "common": {
+            "all_href": "_all_href.json",
+            "all_tags": "_all_tags.json",
+            "all_tags_idx": "_all_tags_idx.json",
+            "all_tags_swap": "_all_tags_swap.json",
+            "all_tags_tags": "_all_tags_tags.json",
+            "all_tags_formatted": "_all_tags_formatted.json",
+            "all_tags_with_paths": "_all_tags_with_paths.json",
+            "morph_tags": "_morph_tags.json",
+            "morph_tags_swap": "_morph_tags_swap.json",
+            "valid_chars": "_valid_chars.json",
+            "fields_parser": "_fields_parser.json",
+            "templates_rel": "_templates_rel.json"
+        },
+        "ml_models": "models"
+    },
+
+    "analyzer": {
+        "tags_kinds": {
+            "B-ORG": 5,
+            "B-PRODUCT": 5,
+            "B-LAW": 5,
+            "B-WORK OF ART": 5,
+            "B-GPE": 5,
+            "B-LOCATION": 5,
+            "B-LANGUAGE": 5,
+            "B-FACILITY": 5,
+            "B-NORP": 5,
+            "B-PERSON": 5,
+            "B-EVENT": 5,
+            "B-DATE": 5,
+            "B-TIME": 5,
+            "B-PERCENT": 5,
+            "B-MONEY": 5,
+            "B-QUANTITY": 5,
+            "B-ORDINAL": 5,
+            "B-CARDINAL": 5,
+            "I-ORG": 5,
+            "I-PRODUCT": 5,
+            "I-LAW": 5,
+            "I-WORK OF ART": 5,
+            "I-GPE": 5,
+            "I-LOCATION": 5,
+            "I-LANGUAGE": 5,
+            "I-FACILITY": 5,
+            "I-NORP": 5,
+            "I-PERSON": 5,
+            "I-EVENT": 5,
+            "I-DATE": 5,
+            "I-TIME": 5,
+            "I-PERCENT": 5,
+            "I-MONEY": 5,
+            "I-QUANTITY": 5,
+            "I-ORDINAL": 5,
+            "I-CARDINAL": 5,
+            "text": 2,
+            "text_tree": 1
+        },
+        "tags_find": {
+            "entity": 5
+        },
+        "stop_words": [
+            "привет",
+            "доброе",
+            "добрый",
+            "день",
+            "добоый",
+            "добрй",
+            "доброу",
+            "добррый",
+            "добый",
+            "добьрый",
+            "утро",
+            "утро1",
+            "день",
+            "день1",
+            "вечер",
+            "здравсвуйте",
+            "здравствовать",
+            "здравствута",
+            "здравтсвуйте",
+            "здраствовать",
+            "свидание",
+            "спасибо",
+            "пожа",
+            "пожайлуст",
+            "пожалйуст",
+            "пожалуqста",
+            "пожалуйста",
+            "пожалуйт",
+            "просьа",
+            "просьсба",
+            "помошь",
+            "необходжимо",
+            "необхадима",
+            "нужно",
+            "обещать",
+            "давненько",
+            "давно",
+            "недавно",
+            "завтра",
+            "послезавтра"
+        ],
+        "word_symbols": "A-Za-zА-Яа-яёЁ\\d",
+        "filter_symbols": "\\.\\-_\\s",
+        "stop_symbols": "\\.",
+        "enough_len_of_tokens": 450,
+        "max_len_of_tokens": 500,
+        "normalize": false
+    },
+
+    "query" : {
+        "stop_words": [
+            "дай",
+            "найди",
+            "подскажи",
+            "помоги",
+            "найти",
+            "дать"
+        ],
+        "white_words": [
+            "мфц",
+            "вис",
+            "рпгу",
+            "би",
+            "порталы",
+            "продажи",
+            "тв",
+            "цв",
+            "пт",
+            "пк",
+            "опятница"
+        ],
+        "tags":{
+            "встреча": {
+                "@idx": "gu432hg98g23g",
+                "@stat": 0.5
+            },
+            "время": {
+                "@idx": "mg092348hg9348hg",
+                "@stat": 0.1
+            },
+            "информация": {
+                "@idx": "jykk344uh234yh34h",
+                "@stat": 0.2
+            },
+            "ссылка": {
+                "@idx": "j32w43f24yh2yu3",
+                "@stat": 0.5
+            },
+            "поиск": {
+                "@idx": "dsfdsfsdfdsf",
+                "@stat": 0.3
+            }
+        },
+        "tasks": {
+            "найти время встречи": {
+                "@tags": [
+                    "gu432hg98g23g",
+                    "mg092348hg9348hg"
+                ],
+                "@stat": 0.3
+            },
+            "найти информацию по встрече": {
+                "@tags": [
+                    "gu432hg98g23g",
+                    "jykk344uh234yh34h"
+                ],
+                "@stat": 0.1
+            },
+            "найти ссылку на встречу": {
+                "@tags": [
+                    "gu432hg98g23g",
+                    "j32w43f24yh2yu3"
+                ],
+                "@stat": 0.6
+            },
+            "поиск информации во встрече": {
+                "@tags": [
+                    "gu432hg98g23g",
+                    "jykk344uh234yh34h",
+                    "dsfdsfsdfdsf"
+                ],
+                "@stat": 0.6
+            }
+        }
+    },
+
+    "tracker_parser":{
+        "fields_find": {
+            "title":    0,
+            "h1":       {"priority": 3, "tags_from_text": true},
+            "h2":       {"priority": 2, "tags_from_text": true},
+            "h3":       {"priority": 2, "tags_from_text": true},
+            "h4":       {"priority": 2, "tags_from_text": true},
+            "h5":       {"priority": 2, "tags_from_text": true},
+            "h6":       {"priority": 2, "tags_from_text": true},
+            "strong":   {"priority": 2, "tags_from_text": true},
+            "body":     {"priority": 2, "tags_from_text": true},
+            "a":        {"priority": 2, "tags_from_text": true},
+            "p":        {"priority": 2, "tags_from_text": true},
+            "li":       {"priority": 2, "tags_from_text": true}
+        }
+    },
+
+    "html_parser": {
+        "fields_find": {
+            "title":    {"priority": 10, "tags_from_text": true},
+            "h1":       5,
+            "h2":       4,
+            "h3":       3,
+            "h4":       2,
+            "h5":       2,
+            "h6":       2,
+            "strong":   3,
+            "body":     1,
+            "a":        5,
+            "p":        1,
+            "li":       1
+        }
+    },
+
+    "html_gosu_parser": {
+        "fields_find": {
+            "title":                                  {"priority": 10, "tags_from_text": true},
+            "ng-include[@class=\"ng-scope\"]":        1,
+            "div[@data-compile-html=\"modal.text\"]": 1
+        }
+    },
+
+    "finder": {
+        "count_of_tags_for_display":    100,
+        "count_of_res_for_display":     25,
+        "valid_chars": "йцукенгшщзхъфывапролджэячсмитьбюёЙЦУКЕНГШЩЗХЪФЫВАПРОЛДЖЭЯЧСМИТЬБЮЁ",
+        "stop_words": ["мфц", "bi", "digit", "confluence", "в", "для", "и", "по", "с", "на", "о", "из", "до", "к", "у", "за", "г."]
+    },
+
+    "visualizer": {
+        "max_filter_of_count": 30000000
+    },
+
+    "ml_learner": {
+        "data": {
+            "train": 0.9,
+            "val":   0.0,
+            "test":  0.1,
+            "balanced": false
+        },
+        "pos_tags": false,
+        "tags_max_norm": true,
+        "tag_threshold": 0.1,
+        "rare_tag": true,
+        "threshold_up":     0.9,
+        "threshold_bottom": 0.1,
+        "min_counter": 0,
+        "dont_know_class": false,
+        "save_model": false
+    }
+}

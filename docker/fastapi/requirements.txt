@@ -1,0 +1,16 @@
+shapely
+scikit-image
+imgaug
+pyclipper
+lmdb
+opencv-python
+tqdm
+numpy
+visualdl
+python-Levenshtein
+pillow
+jinja2
+aiofiles
+python-multipart
+prometheus-fastapi-instrumentator
+pdf2image

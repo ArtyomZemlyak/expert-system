@@ -1,0 +1,41 @@
+{
+    "confluence_auth": {
+        "user": "",
+        "pass": "",
+        "url": "",
+        "spaces": {
+            "BI": ""
+        }
+    },
+    "postgres_auth": {
+        "host": "",
+        "port": "",
+        "user": "",
+        "pass": "",
+        "db_name": ""
+    },
+    "bi_ai_demo_auth": {
+        "host": "",
+        "port": ""
+    },
+    "dbes_auth": {
+        "host": "",
+        "port": ""
+    },
+    "telegram_app_api_auth": {
+        "api_id": ,
+        "api_hash": "",
+        "phone": "",
+        "pass": "",
+        "username": "",
+        "channel": ""
+    },
+    },
+    "bi_postgres_auth": {
+        "host": "",
+        "port": "",
+        "user": "",
+        "pass": "",
+        "db_name": ""
+    }
+}

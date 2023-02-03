@@ -1,0 +1,60 @@
+{
+    "caching": {
+        "type": "one_change",
+        "save": true
+    },
+
+    "mode": "gosu",
+    "pipeline": ["ner", "ent"],
+    "text_tags": false,
+    "morph": true,
+    "paraphrase": true,
+    "delete": true,
+
+    "path_configs": "DeepPavlov/deeppavlov/configs",
+    "path_to_models": {
+        "ner": "ner/ner_ontonotes_bert_mult.json",
+        "ent": "ner/ner_bert_ent_and_type_rus.json",
+        "syn": "syntax/syntax_ru_syntagrus_bert.json",
+        "morph": "morpho_tagger/BERT/morpho_ru_syntagrus_bert.json",
+        "qa": "squad/squad_ru_rubert_infer.json"
+    },
+
+    "save": {
+        "path_save": "db/tracker_4c_fl",
+        "net": {},
+        "common": {
+            "all_href": "_all_href.json",
+            "all_tags": "_all_tags.json",
+            "all_tags_idx": "_all_tags_idx.json",
+            "all_tags_swap": "_all_tags_swap.json",
+            "all_tags_tags": "_all_tags_tags.json",
+            "all_tags_formatted": "_all_tags_formatted.json",
+            "all_tags_with_paths": "_all_tags_with_paths.json",
+            "morph_tags": "_morph_tags.json",
+            "morph_tags_swap": "_morph_tags_swap.json",
+            "valid_chars": "_valid_chars.json",
+            "fields_parser": "_fields_parser.json",
+            "templates_rel": "_templates_rel.json"
+        },
+        "ml_models": "models"
+    },
+
+    "ml_learner": {
+        "data": {
+            "train": 0.9,
+            "val":   0.0,
+            "test":  0.1,
+            "balanced": false
+        },
+        "pos_tags": false,
+        "tags_max_norm": true,
+        "tag_threshold": 0.1,
+        "rare_tag": true,
+        "threshold_up":     0.9,
+        "threshold_bottom": 0.1,
+        "min_counter": 10,
+        "dont_know_class": false,
+        "save_model": false
+    }
+}

@@ -1,0 +1,15 @@
+../../Detection/inference_model
+../../Detection/models
+../../Detection/Firearm_Detector_v2
+../Detection/inference_model
+../Detection/models
+../Detection/Firearm_Detector_v2
+./Detection/inference_model
+./Detection/models
+./Detection/Firearm_Detector_v2
+/Detection/inference_model
+/Detection/models
+/Detection/Firearm_Detector_v2
+**/Detection/inference_model
+**/Detection/models
+**/Detection/Firearm_Detector_v2

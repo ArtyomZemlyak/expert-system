@@ -1,0 +1,9 @@
+numpy
+psycopg[binary]
+fast-mosestokenizer
+nltk
+pymystem3
+fast-autocomplete[levenshtein]
+networkx
+python-igraph
+plotly

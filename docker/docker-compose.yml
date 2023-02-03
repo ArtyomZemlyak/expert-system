@@ -1,0 +1,295 @@
+version: '2'
+
+
+networks:
+  back:
+    driver: bridge
+
+
+services:
+
+  # queue:
+  #   image: rabbitmq:management
+  #   networks:
+  #     - back
+  #   expose:
+  #     - "5672"  # For queue working
+  #     - "15672" # For managment
+  #   ports:
+  #     - "5672:5672"
+  #     - "15672:15672"
+  #   environment:
+  #     RABBITMQ_DEFAULT_USER: ${QUEUE_SERVER_USERNAME}
+  #     RABBITMQ_DEFAULT_PASS: ${QUEUE_SERVER_PASSWORD}
+  #   restart: always
+
+
+  # arrow:
+  #   build:
+  #     context: ./
+  #     dockerfile: ./arrow/Dockerfile
+  #   networks:
+  #     - back
+  #   expose:
+  #     - "${ARROW_SERVER_PORT}"
+  #   ports:
+  #     - "${ARROW_SERVER_PORT}:${ARROW_SERVER_PORT}"
+  #   stdin_open: true
+  #   tty: true
+  #   environment:
+  #     ARROW_SERVER_PORT: ${ARROW_SERVER_PORT}
+  #   volumes:
+  #     - "./arrow/scripts:/app/scripts"
+  #     - "./.scripts/:/app/scripts/scripts"
+  #     - "./.build/wait-for-it.sh:/app/build/wait-for-it.sh"
+  #   restart: always
+
+
+  # fastapi:
+  #   build:
+  #     context: ./
+  #     dockerfile: ./fastapi/Dockerfile
+  #   ports:
+  #     - "${FASTAPI_PORT}:80"
+  #   networks:
+  #     - back
+  #   depends_on:
+  #     - arrow
+  #     - queue
+  #   stdin_open: true
+  #   tty: true
+  #   environment:
+  #     QUEUE_SERVER_HOST: queue
+  #     QUEUE_SERVER_PORT: 5672
+  #     QUEUE_SERVER_USERNAME: ${QUEUE_SERVER_USERNAME}
+  #     QUEUE_SERVER_PASSWORD: ${QUEUE_SERVER_PASSWORD}
+  #     ARROW_SERVER_PORT: ${ARROW_SERVER_PORT}
+  #   volumes:
+  #     - "./fastapi/scripts:/app/scripts"
+  #     - "./.scripts/:/app/scripts/scripts"
+  #     - "./.build/wait-for-it.sh:/app/build/wait-for-it.sh"
+  #     - "../doc:/app/doc"
+  #     - "../scripts/templates:/app/templates"
+  #     - "./config.json:/app/config.json"
+  #   restart: always
+
+
+  dbes:
+    build:
+      context: ./
+      dockerfile: ./dbes/Dockerfile
+    networks:
+      - back
+    ports:
+      - "${DBES_PORT}:80"
+    stdin_open: true
+    tty: true
+    volumes:
+      - "../config.json:/app/config.json"
+      - "../scripts:/app/ES"
+      - "./dbes/scripts/:/app/scripts"
+      - "./.scripts/:/app/scripts/scripts"
+    restart: always
+
+
+  # esgui:
+  #   build:
+  #     context: ./
+  #     dockerfile: ./esgui/Dockerfile
+  #   networks:
+  #     - back
+  #   ports:
+  #     - "${ESGUI_PORT}:3030"
+  #   environment:
+  #     POSTGRES_PORT: ${POSTGRES_PORT}
+  #     POSTGRES_USER: ${POSTGRES_USER}
+  #     POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+  #   stdin_open: true
+  #   tty: true
+  #   volumes:
+  #     - "../config.json:/app/config.json"
+  #     - "../scripts/es/ESGUI/ESGUI:/app/ES/es/ESGUI/ESGUI"
+  #   restart: always
+
+
+  esgui-anvil:
+    build:
+      context: ./
+      dockerfile: ./esgui-anvil/Dockerfile
+    networks:
+      - back
+    ports:
+      - "${ESGUI_PORT}:3030"
+    stdin_open: true
+    tty: true
+    volumes:
+      - "../config.json:/app/config.json"
+      - "../scripts/es/ESGUI/ESGUI:/app/ES/es/ESGUI/ESGUI"
+    restart: always
+
+
+  # analyzer:
+  #   build:
+  #     context: ../
+  #     dockerfile: ./docker/autophoto/Dockerfile
+  #   networks:
+  #     - back
+  #   depends_on:
+  #     - arrow
+  #     - queue
+  #     - fastapi
+  #   stdin_open: true
+  #   tty: true
+  #   environment:
+  #     QUEUE_SERVER_HOST: queue
+  #     QUEUE_SERVER_PORT: 5672
+  #     QUEUE_SERVER_USERNAME: ${QUEUE_SERVER_USERNAME}
+  #     QUEUE_SERVER_PASSWORD: ${QUEUE_SERVER_PASSWORD}
+  #     ARROW_SERVER_PORT: ${ARROW_SERVER_PORT}
+  #   volumes:
+  #     - "../DeepPavlov:/app/DeepPavlov"
+  #     - "../config.json:/app/config.json"
+  #     - "./analyzer/scripts:/app/analyzer"
+  #     - "./.scripts/:/app/scripts/scripts"
+  #     - "./.build/wait-for-it.sh:/app/build/wait-for-it.sh"
+  #   restart: always
+
+
+  #  ml-predictor:
+  #   build:
+  #     context: ../
+  #     dockerfile: ./docker/autophoto/Dockerfile
+  #   networks:
+  #     - back
+  #   depends_on:
+  #     - arrow
+  #     - queue
+  #     - fastapi
+  #   stdin_open: true
+  #   tty: true
+  #   environment:
+  #     QUEUE_SERVER_HOST: queue
+  #     QUEUE_SERVER_PORT: 5672
+  #     QUEUE_SERVER_USERNAME: ${QUEUE_SERVER_USERNAME}
+  #     QUEUE_SERVER_PASSWORD: ${QUEUE_SERVER_PASSWORD}
+  #     ARROW_SERVER_PORT: ${ARROW_SERVER_PORT}
+  #   volumes:
+  #     - "../DeepPavlov:/app/DeepPavlov"
+  #     - "../config.json:/app/config.json"
+  #     - "./analyzer/scripts:/app/analyzer"
+  #     - "./.scripts/:/app/scripts/scripts"
+  #     - "./.build/wait-for-it.sh:/app/build/wait-for-it.sh"
+  #   restart: always
+
+
+  # finder:
+  #   build:
+  #     context: ../
+  #     dockerfile: ./docker/autophoto/Dockerfile
+  #   networks:
+  #     - back
+  #   depends_on:
+  #     - arrow
+  #     - queue
+  #     - fastapi
+  #   stdin_open: true
+  #   tty: true
+  #   environment:
+  #     QUEUE_SERVER_HOST: queue
+  #     QUEUE_SERVER_PORT: 5672
+  #     QUEUE_SERVER_USERNAME: ${QUEUE_SERVER_USERNAME}
+  #     QUEUE_SERVER_PASSWORD: ${QUEUE_SERVER_PASSWORD}
+  #     ARROW_SERVER_PORT: ${ARROW_SERVER_PORT}
+  #   volumes:
+  #     - "../Detection/config.json:/app/Detection/config.json"
+  #     - "../Detection/MODNet:/app/Detection/MODNet"
+  #     - "../Detection/ACE2P:/app/Detection/ACE2P"
+  #     - "../Detection/FaceSeg:/app/Detection/FaceSeg"
+  #     - "../Detection/GazeTracking:/app/Detection/GazeTracking"
+  #     - "../Detection/scripts/:/app/Detection/scripts"
+  #     - "./autophoto/scripts:/app/scripts"
+  #     - "./.scripts/:/app/scripts/scripts"
+  #     - "./.build/wait-for-it.sh:/app/build/wait-for-it.sh"
+  #   restart: always
+
+
+  # mongo:
+  #   image: mongo:latest
+  #   networks:
+  #     - back
+  #   expose:
+  #   - "${MONGO_PORT}"
+  #   ports:
+  #   - "${MONGO_PORT}:27017"
+  #   restart: always
+
+  # prometheus:
+  #   image: prom/prometheus:latest
+  #   depends_on:
+  #     - cadvisor
+  #   networks:
+  #     - front
+  #     - monitor
+  #   ports:
+  #     - "${PROMETHEUS_PORT}:9090"
+  #   environment:
+  #     PROMETHEUS_PORT: ${PROMETHEUS_PORT}
+  #     FASTAPI_PORT: ${FASTAPI_PORT}
+  #     ALERTMANAGER_PORT: ${ALERTMANAGER_PORT}"
+  #     CADVISOR_PORT: ${CADVISOR_PORT}
+  #   command:
+  #     - '--config.file=/etc/prometheus/prometheus.yml'
+  #     - '--storage.tsdb.path=/prometheus'
+  #     - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+  #     - '--web.console.templates=/usr/share/prometheus/consoles'
+  #   volumes:
+  #     - ./prometheus/:/etc/prometheus/
+  #   restart: always
+
+  # cadvisor:
+  #   image: google/cadvisor
+  #   networks:
+  #     - monitor
+  #   ports:
+  #     - ${CADVISOR_PORT}:${CADVISOR_PORT}
+  #   command:
+  #     - '-port=${CADVISOR_PORT}'
+  #   volumes:
+  #     - /:/rootfs:ro
+  #     - /var/run:/var/run:rw
+  #     - /sys:/sys:ro
+  #     - /var/lib/docker/:/var/lib/docker:ro
+  #     - /etc/machine-id:/etc/machine-id:ro
+  #     - /var/lib/dbus/machine-id:/var/lib/dbus/machine-id:ro
+  #   restart: always
+  #   privileged: true
+  #   deploy:
+  #     mode: global
+
+  # alertmanager:
+  #   image: prom/alertmanager
+  #   networks:
+  #     - monitor
+  #   ports:
+  #     - "${ALERTMANAGER_PORT}:9093"
+  #   command:
+  #     - '--config.file=/etc/alertmanager/config.yml'
+  #     - '--storage.path=/alertmanager'
+  #   volumes:
+  #     - ./prometheus/alertmanager/:/etc/alertmanager/
+  #   restart: always
+
+  # alerta:
+  #   image: alerta/alerta-web
+  #   networks:
+  #     - monitor
+  #     - back
+  #   ports:
+  #     - ${ALERTA_PORT}:8080
+  #   environment:
+  #     - DATABASE_URL=mongodb://mongo:27017/monitoring
+  #     # - AUTH_REQUIRED=True
+  #     - ADMIN_USERS=admin@alerta.io
+  #     - PLUGINS=remote_ip,reject,heartbeat,blackout,prometheus
+  #     - ALERTMANAGER_API_URL=http://alertmanager:${ALERTMANAGER_PORT}
+  #   restart: always
